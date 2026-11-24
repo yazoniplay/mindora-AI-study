@@ -67,7 +67,7 @@ export async function signUp(email: string, password: string): Promise<{ user: C
 export async function signOut(): Promise<void> {
   const session = await currentSession();
   try {
-    if (session) await authRequest('logout', undefined, session.access_token);
+    if (session) await authRequest('logout', {}, session.access_token);
   } finally {
     saveSession(null);
   }
