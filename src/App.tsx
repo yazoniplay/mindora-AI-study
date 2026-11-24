@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ArrowDownToLine, ArrowRight, BookOpen, Check, ChevronRight, Clock3, FileImage,
   FileText, FolderOpen, GraduationCap, House, Layers3, LoaderCircle, LogIn,
-  LogOut, Menu, Plus, Search, Sparkles, Trash2, Upload, X, Cloud, CloudCheck,
+  LogOut, Menu, Plus, Search, Sparkles, Trash2, Upload, X, Cloud,
 } from 'lucide-react';
 import {
   createSubject, deleteMaterial, deleteSubject, getMaterials, getSubjects,
@@ -221,7 +221,7 @@ function App() {
         <button className="subject-create" onClick={()=>setSubjectOpen(true)}><Plus size={15}/> Add a subject</button>
       </div>
       <div className="sidebar-bottom">
-        <div className="cloud-card"><div className="cloud-card-head"><Cloud size={17}/><span>{cloudUser?'Mindora Cloud':'Your study space'}</span><span className={cloudUser?'cloud-status':'cloud-status local'}/></div><p>{cloudUser?'Your library is linked to your account.':'Sign in to sync notes and images across devices.'}</p>{cloudUser?<button className="cloud-action" onClick={()=>performSync(cloudUser)} disabled={syncing}>{syncing?<LoaderCircle size={14} className="spin"/>:<CloudCheck size={14}/>} {syncing?'Syncing…':'Sync now'}</button>:<button className="cloud-action" onClick={()=>{setError('');setAuthOpen(true)}}><LogIn size={14}/> Connect account</button>}</div>
+        <div className="cloud-card"><div className="cloud-card-head"><Cloud size={17}/><span>{cloudUser?'Mindora Cloud':'Your study space'}</span><span className={cloudUser?'cloud-status':'cloud-status local'}/></div><p>{cloudUser?'Your library is linked to your account.':'Sign in to sync notes and images across devices.'}</p>{cloudUser?<button className="cloud-action" onClick={()=>performSync(cloudUser)} disabled={syncing}>{syncing?<LoaderCircle size={14} className="spin"/>:<Check size={14}/>} {syncing?'Syncing…':'Sync now'}</button>:<button className="cloud-action" onClick={()=>{setError('');setAuthOpen(true)}}><LogIn size={14}/> Connect account</button>}</div>
         <div className="profile-row"><span className="profile-avatar"><GraduationCap size={18}/></span><span className="profile-text"><strong>{cloudUser?.email??'Your profile'}</strong><small>{cloudUser?'Cloud account connected':'Local library'}</small></span>{cloudUser&&<button className="profile-logout" onClick={async()=>{await signOut();setCloudUser(null)}} aria-label="Sign out"><LogOut size={15}/></button>}</div>
       </div>
     </aside>
