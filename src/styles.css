@@ -23,8 +23,7 @@
 .banner-copy p{font-size:12px;max-width:390px;color:#b0adc4}
 .banner-visual{right:0;width:47%;overflow:hidden;isolation:isolate}
 
-.study-banner:hover 
-to{opacity:.82;transform:scale(1.04)}}
+
 
 .banner-visual:before{content:'';position:absolute;inset:13px;border:1px solid #ffffff17;border-radius:16px;z-index:2;pointer-events:none}
 .book-stack{display:none}
