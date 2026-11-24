@@ -5,14 +5,13 @@ export type MindoraSettings = {
  fontScale: number;
  compact: boolean;
  reduceMotion: boolean;
- soundEffects: boolean;
  focusMinutes: number;
  dailyGoalMinutes: number;
  language: string;
 };
 export const DEFAULT_SETTINGS: MindoraSettings = {
  theme:'dark', accent:'#b8a7ff', fontScale:1, compact:false, reduceMotion:false,
- soundEffects:false, focusMinutes:25, dailyGoalMinutes:60, language:'en'
+ focusMinutes:25, dailyGoalMinutes:60, language:'en'
 };
 const accents=[['Lavender','#b8a7ff'],['Ocean','#82b9ff'],['Mint','#91dfc9'],['Rose','#f3a9c7'],['Amber','#f4b88f'],['Violet','#b69bff'],['Sky','#7dd9e8'],['Coral','#ff9f8f']];
 export default function SettingsPanel({settings,onChange,onReset,onOpenProfile}:{settings:MindoraSettings;onChange:(next:MindoraSettings)=>void;onReset:()=>void;onOpenProfile:()=>void}){
@@ -36,7 +35,6 @@ export default function SettingsPanel({settings,onChange,onReset,onOpenProfile}:
    </section>
    <section className="settings-card" id="settings-accessibility"><div className="settings-card-heading"><span className="settings-card-icon peach"><Monitor size={17}/></span><div><h2>Accessibility & comfort</h2><p>Make studying comfortable for longer sessions.</p></div></div>
     <Toggle label="Reduce motion" detail="Turn off decorative movement and transitions." checked={settings.reduceMotion} onToggle={v=>set('reduceMotion',v)}/>
-    <Toggle label="Sound effects" detail="Enable subtle interface sounds when supported." checked={settings.soundEffects} onToggle={v=>set('soundEffects',v)}/>
    </section>
    <section className="settings-card" id="settings-language"><div className="settings-card-heading"><span className="settings-card-icon blue"><Monitor size={17}/></span><div><h2>Language</h2><p>Choose your preferred language for future translated interface support.</p></div></div><div className="settings-setting"><div><strong>Interface language</strong><small>Currently, the app interface is available in English.</small></div><select value={settings.language} onChange={e=>set('language',e.target.value)}><option value="en">English</option><option value="lv">Latviešu</option><option value="sv">Svenska</option><option value="ru">Русский</option><option value="de">Deutsch</option><option value="es">Español</option><option value="fr">Français</option></select></div>{settings.language!=='en'&&<p className="settings-note">Your language preference is saved. Full interface translation is not available yet; the app remains in English for now.</p>}</section>
    <p className="settings-save-note"><Check size={14}/> Changes save automatically on this device.</p>
