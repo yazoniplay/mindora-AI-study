@@ -1,4 +1,4 @@
-import { Check, Monitor, Moon, Palette, RotateCcw, Settings2, Sun } from 'lucide-react';
+import { Check, Monitor, Moon, Palette, RotateCcw, Settings2, Sun, UserRound, ArrowUpRight } from 'lucide-react';
 export type MindoraSettings = {
  theme: 'dark' | 'light' | 'midnight';
  accent: string;
@@ -15,13 +15,14 @@ export const DEFAULT_SETTINGS: MindoraSettings = {
  soundEffects:false, focusMinutes:25, dailyGoalMinutes:60, language:'en'
 };
 const accents=[['Lavender','#b8a7ff'],['Ocean','#82b9ff'],['Mint','#91dfc9'],['Rose','#f3a9c7'],['Amber','#f4b88f'],['Violet','#b69bff'],['Sky','#7dd9e8'],['Coral','#ff9f8f']];
-export default function SettingsPanel({settings,onChange,onReset}:{settings:MindoraSettings;onChange:(next:MindoraSettings)=>void;onReset:()=>void}){
+export default function SettingsPanel({settings,onChange,onReset,onOpenProfile}:{settings:MindoraSettings;onChange:(next:MindoraSettings)=>void;onReset:()=>void;onOpenProfile:()=>void}){
  const set=<K extends keyof MindoraSettings>(key:K,value:MindoraSettings[K])=>onChange({...settings,[key]:value});
  const Toggle=({label,detail,checked,onToggle}:{label:string;detail:string;checked:boolean;onToggle:(value:boolean)=>void})=><label className="settings-toggle-row"><span><strong>{label}</strong><small>{detail}</small></span><input type="checkbox" checked={checked} onChange={e=>onToggle(e.target.checked)}/><i/></label>;
  return <section className="settings-page">
   <header className="settings-page-heading"><div><div className="kicker"><Settings2 size={13}/> YOUR WORKSPACE</div><h1>Settings</h1><p>Make Mindora feel like your own study space. Your preferences save automatically on this device.</p></div><button className="settings-reset" onClick={onReset}><RotateCcw size={14}/> Reset all</button></header>
   <div className="settings-layout"><aside className="settings-index"><span>PERSONALIZATION</span><a href="#settings-appearance">Appearance</a><a href="#settings-study">Study preferences</a><a href="#settings-accessibility">Accessibility</a><a href="#settings-language">Language</a></aside>
   <div className="settings-sections">
+   <section className="settings-card" id="settings-profile"><div className="settings-card-heading"><span className="settings-card-icon"><UserRound size={17}/></span><div><h2>Profile & identity</h2><p>Manage your study name, avatar, level and achievements.</p></div></div><div className="settings-profile-link"><span><strong>Student profile</strong><small>Personal details and earned milestones.</small></span><button onClick={onOpenProfile}>Open profile editor <ArrowUpRight size={15}/></button></div></section>
    <section className="settings-card" id="settings-appearance"><div className="settings-card-heading"><span className="settings-card-icon"><Palette size={17}/></span><div><h2>Appearance</h2><p>Colors and layout across your study space.</p></div></div>
     <div className="settings-setting"><div><strong>Theme</strong><small>Choose the look of your workspace.</small></div><div className="settings-theme-choices"><button className={settings.theme==='dark'?'active':''} onClick={()=>set('theme','dark')}><Moon size={16}/>Dark</button><button className={settings.theme==='light'?'active':''} onClick={()=>set('theme','light')}><Sun size={16}/>Light</button><button className={settings.theme==='midnight'?'active':''} onClick={()=>set('theme','midnight')}><Monitor size={16}/>Midnight</button></div></div>
     <div className="settings-setting"><div><strong>Accent color</strong><small>Use this color for active controls and highlights.</small></div><div className="settings-color-grid">{accents.map(([name,color])=><button key={name} title={name} aria-label={name} className={settings.accent===color?'active':''} style={{'--swatch':color} as React.CSSProperties} onClick={()=>set('accent',color)}>{settings.accent===color&&<Check size={14}/>}</button>)}</div></div>
