@@ -1,7 +1,7 @@
 export type Subject = { id: string; name: string; createdAt: number; };
 export type StudyTask = { id: string; title: string; dueAt: number; subjectId: string | null; priority: 'low' | 'medium' | 'high'; taskType?: 'assignment' | 'exam' | 'study'; completed: boolean; xpAwarded?: boolean; createdAt: number; };
 export type Material = { id: string; name: string; kind: string; text: string; subjectId: string | null; createdAt: number; characterCount: number; imageBlob?: Blob; storagePath?: string | null; };
-export type StudentProfile = { id: 'local'; displayName: string; avatar: string; totalXp: number; completedTasks: number; focusSessions: number; cardsReviewed: number; activityDates: string[]; updatedAt: number; };
+export type StudentProfile = { id: 'local'; displayName: string; avatar: string; totalXp: number; completedTasks: number; focusSessions: number; focusMinutesTotal: number; cardsReviewed: number; activityDates: string[]; updatedAt: number; };
 const DATABASE_NAME = 'mindora-library';
 const DATABASE_VERSION = 3;
 const SUBJECTS_STORE = 'subjects', MATERIALS_STORE = 'materials', TASKS_STORE = 'tasks', PROFILE_STORE = 'profile';
@@ -18,14 +18,14 @@ async function requestResult<T>(storeName:string,mode:IDBTransactionMode,operati
 }
 export async function getProfile():Promise<StudentProfile>{
  const existing=await requestResult<StudentProfile|undefined>(PROFILE_STORE,'readonly',s=>s.get('local'));
- if(existing)return existing;
- const profile:StudentProfile={id:'local',displayName:'Student',avatar:'🌱',totalXp:0,completedTasks:0,focusSessions:0,cardsReviewed:0,activityDates:[],updatedAt:Date.now()};
+ if(existing)return {...existing,focusMinutesTotal:existing.focusMinutesTotal??0};
+ const profile:StudentProfile={id:'local',displayName:'Student',avatar:'🌱',totalXp:0,completedTasks:0,focusSessions:0,focusMinutesTotal:0,cardsReviewed:0,activityDates:[],updatedAt:Date.now()};
  await requestResult<IDBValidKey>(PROFILE_STORE,'readwrite',s=>s.put(profile));return profile;
 }
 export async function putProfile(profile:StudentProfile):Promise<void>{await requestResult<IDBValidKey>(PROFILE_STORE,'readwrite',s=>s.put({...profile,updatedAt:Date.now()}));}
-export async function awardStudyXp(kind:'task'|'focus'|'card',amount:number):Promise<StudentProfile>{
+export async function awardStudyXp(kind:'task'|'focus'|'card',amount:number,focusMinutes=0):Promise<StudentProfile>{
  const profile=await getProfile();const now=new Date();const today=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');const dates=profile.activityDates.includes(today)?profile.activityDates:[...profile.activityDates,today];
- const updated:StudentProfile={...profile,totalXp:profile.totalXp+Math.max(0,amount),completedTasks:profile.completedTasks+(kind==='task'?1:0),focusSessions:profile.focusSessions+(kind==='focus'?1:0),cardsReviewed:profile.cardsReviewed+(kind==='card'?1:0),activityDates:dates.slice(-365),updatedAt:Date.now()};
+ const updated:StudentProfile={...profile,totalXp:profile.totalXp+Math.max(0,amount),completedTasks:profile.completedTasks+(kind==='task'?1:0),focusSessions:profile.focusSessions+(kind==='focus'?1:0),focusMinutesTotal:profile.focusMinutesTotal+(kind==='focus'?Math.max(0,focusMinutes):0),cardsReviewed:profile.cardsReviewed+(kind==='card'?1:0),activityDates:dates.slice(-365),updatedAt:Date.now()};
  await putProfile(updated);return updated;
 }
 export async function getSubjects():Promise<Subject[]>{const rows=await requestResult<Subject[]>(SUBJECTS_STORE,'readonly',s=>s.getAll());return rows.sort((a,b)=>a.name.localeCompare(b.name));}
