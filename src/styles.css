@@ -97,3 +97,23 @@ button:active:not(:disabled){transform:scale(.985)}
 @media(max-width:820px){.home-workbench{grid-template-columns:1fr}.home-side-column{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}.home-focus-panel,.home-subject-panel{height:100%}.home-welcome h1{font-size:34px}}
 @media(max-width:560px){.home-welcome{align-items:flex-start;flex-direction:column;gap:16px}.home-welcome h1{font-size:31px}.home-primary-action{width:100%}.home-side-column{grid-template-columns:1fr}.home-study-banner{min-height:220px}.home-study-art{inset:0 0 0 20%}.home-study-copy{max-width:90%;padding:22px}.home-study-copy h2{font-size:20px}.home-library-panel{padding:18px 15px 0}.home-panel-head h2{font-size:16px}.home-first-material{align-items:flex-start;gap:13px}.home-empty-art{width:54px;height:54px;border-radius:16px}.home-library-foot{flex-wrap:wrap}.home-material-symbol{width:35px;height:35px}}
 @media(prefers-reduced-motion:reduce){.home-material-item,.home-workspace{animation:none!important}.home-study-art img,.home-timer-face .timer-progress{transition:none!important}}
+
+/* Student planner */
+.planner-page{display:grid;gap:22px;animation:enterUp .42s both}
+.planner-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.planner-summary>div{display:grid;gap:8px;padding:18px 20px;border:1px solid #ffffff10;border-radius:16px;background:linear-gradient(145deg,#1c1d29,#171821)}
+.planner-summary span{font-size:9px;font-weight:800;letter-spacing:1.2px;color:#8e89a7}
+.planner-summary strong{font:800 27px 'Manrope',sans-serif;color:#f0edff;letter-spacing:-1px}
+.planner-task-list{display:grid;gap:10px}
+.planner-task{display:flex;align-items:center;gap:14px;min-width:0;padding:17px 18px;border:1px solid #ffffff10;border-radius:15px;background:linear-gradient(145deg,#1c1d29,#171821);transition:border-color .2s,transform .2s}
+.planner-task:hover{border-color:#b8a7ff30;transform:translateY(-2px)}
+.task-check{width:32px;height:32px;flex-shrink:0;display:grid;place-items:center;border:1px solid #b8a7ff25;border-radius:10px;background:#b8a7ff0b;color:#b8a7ff}
+.task-main{display:grid;gap:6px;flex:1;min-width:0}
+.task-main strong{font-size:13px;font-weight:700;color:#eae6f8;overflow-wrap:anywhere}
+.task-main small{font-size:10px;color:#8e89a7;line-height:1.5}
+.task-priority{padding:5px 8px;border-radius:7px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+.priority-low{color:#9bd9c9;background:#91dfc912}.priority-medium{color:#c5baff;background:#b8a7ff14}.priority-high{color:#ffb5b5;background:#ff777714}
+.task-delete{width:30px;height:30px;display:grid;place-items:center;border:0;border-radius:8px;background:transparent;color:#77728e;transition:all .2s}
+.task-delete:hover{background:#ff777714;color:#ffaaaa}
+.task-completed .task-main strong{text-decoration:line-through;color:#817c96}.task-completed .task-check{color:#9bd9c9;border-color:#91dfc930;background:#91dfc914}
+@media(max-width:620px){.planner-summary{gap:8px}.planner-summary>div{padding:14px 12px}.planner-summary strong{font-size:23px}.planner-task{padding:13px 12px;gap:9px}.task-priority{display:none}}
