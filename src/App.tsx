@@ -112,10 +112,16 @@ function App() {
       }
       await refresh();
       if (imported > 0) {
-        setImportOpen(false);
         setPage('Library');
         setSelectedSubject(importSubject || null);
         setNotice(`Imported ${imported} ${imported === 1 ? 'material' : 'materials'} into your library.`);
+        if (failures.length) {
+          setFiles([]);
+          setNotes('');
+          setImportOpen(true);
+        } else {
+          setImportOpen(false);
+        }
       }
       if (failures.length) setError(failures.join('\n'));
       if (imported === 0 && !failures.length) setError('No readable study content was found.');
