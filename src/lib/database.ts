@@ -24,7 +24,7 @@ export async function getProfile():Promise<StudentProfile>{
 }
 export async function putProfile(profile:StudentProfile):Promise<void>{await requestResult<IDBValidKey>(PROFILE_STORE,'readwrite',s=>s.put({...profile,updatedAt:Date.now()}));}
 export async function awardStudyXp(kind:'task'|'focus'|'card',amount:number):Promise<StudentProfile>{
- const profile=await getProfile();const today=new Date().toLocaleDateString('en-CA');const dates=profile.activityDates.includes(today)?profile.activityDates:[...profile.activityDates,today];
+ const profile=await getProfile();const now=new Date();const today=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');const dates=profile.activityDates.includes(today)?profile.activityDates:[...profile.activityDates,today];
  const updated:StudentProfile={...profile,totalXp:profile.totalXp+Math.max(0,amount),completedTasks:profile.completedTasks+(kind==='task'?1:0),focusSessions:profile.focusSessions+(kind==='focus'?1:0),cardsReviewed:profile.cardsReviewed+(kind==='card'?1:0),activityDates:dates.slice(-365),updatedAt:Date.now()};
  await putProfile(updated);return updated;
 }
