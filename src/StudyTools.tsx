@@ -30,8 +30,13 @@ function makeCards(source: string): Card[] {
   return cards;
 }
 function makeQuiz(source: string): Card[] {
-  const lines = sentences(source);
-  return lines.slice(0, 12).map((answer, index) => ({ prompt: 'Which statement is supported by your material? (Question ' + (index + 1) + ')', answer }));
+  const seen = new Set<string>();
+  return makeCards(source).filter(card => {
+    const key = card.answer.toLowerCase();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  }).slice(0, 12);
 }
 export default function StudyTools({ material, onCardReviewed }: { material: Material; onCardReviewed?: () => void | Promise<void> }) {
   const cards = useMemo(() => makeCards(material.text), [material.id, material.text]);
@@ -43,20 +48,21 @@ export default function StudyTools({ material, onCardReviewed }: { material: Mat
   const [checked, setChecked] = useState(false);
   const [score, setScore] = useState(0);
   const [reviewedCards, setReviewedCards] = useState<Set<number>>(new Set());
+  const [quizComplete, setQuizComplete] = useState(false);
   const current = cards[index];
   const question = quiz[index];
   const options = useMemo(() => {
     if (!question) return [];
-    const distractors = quiz.filter((_, i) => i !== index).map(item => item.answer);
-    return [question.answer, ...distractors.slice(0, 3)].sort((a, b) => (a.length % 7) - (b.length % 7));
+    const alternatives = quiz.filter((_, i) => i !== index).map(item => item.answer).filter(answer => answer.toLowerCase() !== question.answer.toLowerCase());
+    return [question.answer, ...alternatives.slice(0, 3)].sort((a, b) => (a.length % 7) - (b.length % 7));
   }, [quiz, index, question]);
-  const reset = (nextMode: 'cards' | 'quiz') => { setMode(nextMode); setIndex(0); setFlipped(false); setChoice(''); setChecked(false); setScore(0); setReviewedCards(new Set()); };
+  const reset = (nextMode: 'cards' | 'quiz') => { setMode(nextMode); setIndex(0); setFlipped(false); setChoice(''); setChecked(false); setScore(0); setReviewedCards(new Set()); setQuizComplete(false); };
   const next = () => { setIndex(v => (v + 1) % (mode === 'cards' ? cards.length : quiz.length)); setFlipped(false); setChoice(''); setChecked(false); };
   if (!material.text.trim()) return <section className="practice-panel"><h2>Quick practice</h2><p>This material has no extracted text to practice from yet.</p></section>;
   return <section className="practice-panel">
     <div className="practice-heading"><div><span className="practice-kicker"><Sparkles size={13}/> STUDY FROM THIS MATERIAL</span><h2>Quick practice</h2><p>Turn the text you imported into a short self-check.</p></div><div className="practice-mode"><button className={mode==='cards'?'selected':''} onClick={()=>reset('cards')}><Brain size={14}/> Flashcards</button><button className={mode==='quiz'?'selected':''} onClick={()=>reset('quiz')}>Quiz</button></div></div>
-    {mode==='cards' ? cards.length ? <div className="practice-card-wrap"><div className="practice-count">CARD {index+1} OF {cards.length}</div><button className={'practice-card '+(flipped?'is-flipped':'')} onClick={()=>{const next=!flipped;setFlipped(next);if(next&&!reviewedCards.has(index)){setReviewedCards(previous=>new Set(previous).add(index));void onCardReviewed?.();}}}><small>{flipped?'ANSWER':'PROMPT'} · TAP TO FLIP</small><strong>{flipped?current.answer:current.prompt}</strong><span>{flipped?'Try to explain why this term matters.':'Think of the missing term or idea.'}</span></button><div className="practice-controls"><button onClick={()=>{setIndex(v=>(v-1+cards.length)%cards.length);setFlipped(false)}}><ChevronLeft size={17}/> Previous</button><button className="practice-primary" onClick={()=>setFlipped(v=>!v)}>{flipped?'Show prompt':'Reveal answer'}</button><button onClick={next}>Next <ChevronRight size={17}/></button></div></div> : <div className="practice-empty"><p>There isn't enough readable text to make flashcards yet. Add notes or import a text-based document.</p></div>
-    : quiz.length ? <div className="practice-quiz"><div className="practice-count">QUESTION {index+1} OF {quiz.length}</div><h3>{question.prompt}</h3><p className="quiz-hint">Choose the sentence that matches the source material.</p><div className="quiz-options">{options.map((option,i)=><button key={i} className={checked&&option===question.answer?'correct':checked&&option===choice?'incorrect':''} disabled={checked} onClick={()=>setChoice(option)}><span>{String.fromCharCode(65+i)}</span>{option}</button>)}</div><div className="practice-controls"><span className="practice-score">{checked?'Score: '+score+' / '+(index+1):'Based on your imported text'}</span>{checked?<button className="practice-primary" onClick={next}>Next <ChevronRight size={17}/></button>:<button className="practice-primary" disabled={!choice} onClick={()=>{setChecked(true);if(choice===question.answer)setScore(v=>v+1)}}><Check size={16}/> Check answer</button>}</div></div> : <div className="practice-empty"><p>Not enough text for a quiz. Import more readable material first.</p></div>}
+    {mode==='cards' ? cards.length ? <div className="practice-card-wrap"><div className="practice-count">CARD {index+1} OF {cards.length}</div><button className={'practice-card '+(flipped?'is-flipped':'')} onClick={()=>{const reveal=!flipped;setFlipped(reveal);if(reveal&&!reviewedCards.has(index)){setReviewedCards(previous=>new Set(previous).add(index));void onCardReviewed?.();}}}><small>{flipped?'ANSWER':'PROMPT'} · TAP TO FLIP</small><strong>{flipped?current.answer:current.prompt}</strong><span>{flipped?'Try to explain why this term matters.':'Think of the missing term or idea.'}</span></button><div className="practice-controls"><button onClick={()=>{setIndex(v=>(v-1+cards.length)%cards.length);setFlipped(false)}}><ChevronLeft size={17}/> Previous</button><button className="practice-primary" onClick={()=>{const reveal=!flipped;setFlipped(reveal);if(reveal&&!reviewedCards.has(index)){setReviewedCards(previous=>new Set(previous).add(index));void onCardReviewed?.();}}}>{flipped?'Show prompt':'Reveal answer'}</button><button onClick={next}>Next <ChevronRight size={17}/></button></div></div> : <div className="practice-empty"><p>There isn't enough readable text to make flashcards yet. Add notes or import a text-based document.</p></div>
+    : quiz.length ? quizComplete ? <div className="practice-quiz practice-quiz-result"><div className="practice-count">PRACTICE COMPLETE</div><h3>You scored {score} out of {quiz.length}</h3><p className="quiz-hint">{score===quiz.length?'Perfect run. You know this material well.':score>=Math.ceil(quiz.length*0.7)?'Nice work. Review the missed terms once more.':'Keep going—review the cards and try again.'}</p><button className="practice-primary" onClick={()=>reset('quiz')}><RotateCcw size={16}/> Try again</button></div> : <div className="practice-quiz"><div className="practice-count">QUESTION {index+1} OF {quiz.length}</div><h3>{question.prompt}</h3><p className="quiz-hint">Choose the term that completes the statement from your material.</p><div className="quiz-options">{options.map((option,i)=><button key={i} className={checked&&option===question.answer?'correct':checked&&option===choice?'incorrect':''} disabled={checked} onClick={()=>setChoice(option)}><span>{String.fromCharCode(65+i)}</span>{option}</button>)}</div><div className="practice-controls"><span className="practice-score">{checked?'Score: '+score+' / '+(index+1):'Based on your imported text'}</span>{checked?<button className="practice-primary" onClick={()=>{if(index===quiz.length-1)setQuizComplete(true);else next();}}>{index===quiz.length-1?'See results':'Next'} <ChevronRight size={17}/></button>:<button className="practice-primary" disabled={!choice} onClick={()=>{setChecked(true);if(choice===question.answer)setScore(v=>v+1)}}><Check size={16}/> Check answer</button>}</div></div> : <div className="practice-empty"><p>Not enough text to make a quiz. Import more readable material first.</p></div>}
     <div className="practice-foot"><span>Made from this material only · No outside facts added</span><button onClick={()=>reset(mode)}><RotateCcw size={13}/> Restart</button></div>
   </section>;
 }
