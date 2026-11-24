@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import {
-  Activity, ArrowDownRight, ArrowRight, Atom, BookOpen, Brain, CalendarDays,
-  Check, ChevronDown, Clock3, Flame, FlaskConical, GraduationCap, House,
-  Layers3, Menu, Moon, MoreHorizontal, Plus, Search, Settings2, Sparkles,
+  ArrowDownRight, ArrowRight, Atom, BookOpen, Brain, CalendarDays,
+  Check, ChevronDown, Clock3, Flame, FlaskConical, House,
+  Layers3, Menu, MoreHorizontal, Plus, Search, Settings2, Sparkles,
   Target, Trophy, Upload, X, Zap,
 } from 'lucide-react';
 
@@ -93,7 +93,7 @@ function App() {
               <h1>Hey, welcome back<span className="wave"> ✦</span></h1>
               <p className="welcome-sub">Ready to make a little progress today?</p>
             </div>
-            <button className="date-pill"><CalendarDays size={15}/> Monday, Nov 24 <ChevronDown size={14}/></button>
+            <button className="date-pill"><CalendarDays size={15}/> Tuesday, Nov 24 <ChevronDown size={14}/></button>
           </section>
 
           <section className="hero-card">
