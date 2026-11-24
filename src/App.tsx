@@ -113,6 +113,9 @@ function App() {
   }, [timerRunning]);
   const selectedSubject = subjects.find(item => item.id === subjectId) ?? null;
   const upcomingExams = tasks.filter(task => !task.completed && task.taskType === 'exam').sort((a,b)=>a.dueAt-b.dueAt);
+  const todayKey = (()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')})();
+  const todayFocusMinutes = studentProfile?.focusMinutesByDay?.[todayKey]??0;
+  const dailyGoalPercent = Math.min(100,Math.round(todayFocusMinutes/Math.max(1,settings.dailyGoalMinutes)*100));
   const visibleMaterials = useMemo(() => {
     const term = search.trim().toLowerCase();
     return materials.filter(item => {
@@ -286,6 +289,7 @@ function App() {
             <article className="home-stat"><span className="home-stat-icon stat-peach"><CalendarDays size={17}/></span><div><small>OPEN TASKS</small><strong>{tasks.filter(t=>!t.completed).length}</strong></div><button onClick={()=>navigate('Planner')}>Plan work <ArrowRight size={14}/></button></article>
           </section>
           {materials.length===0&&tasks.filter(t=>!t.completed).length===0&&subjects.length===0&&!loading&&<section className="home-welcome-card"><div className="home-welcome-copy"><span className="section-overline">YOUR SPACE IS READY</span><h2>Let's make today count.</h2><p>Start by adding a class material. Mindora will keep your notes, tasks, and subjects together as your study space grows.</p><button className="solid-button" onClick={openImport}><Upload size={16}/> Add your first material <ArrowRight size={15}/></button></div><div className="home-welcome-steps"><div><span>1</span><b>Import notes</b><small>PDFs, slides, images</small></div><div><span>2</span><b>Set a goal</b><small>Choose your next task</small></div><div><span>3</span><b>Focus</b><small>Start a study session</small></div></div></section>}
+          <section className="home-daily-goal"><div className="home-daily-goal-copy"><span className="section-overline">DAILY FOCUS GOAL</span><strong>{todayFocusMinutes} <small>of {settings.dailyGoalMinutes} min</small></strong><p>{dailyGoalPercent>=100?'Daily goal reached—nice work!':`${settings.dailyGoalMinutes-todayFocusMinutes} minutes left to reach your goal`}</p></div><div className="home-daily-goal-track"><i style={{width:dailyGoalPercent+'%'}}/></div><span className="home-daily-goal-percent">{dailyGoalPercent}%</span></section>
           {materials.length>0&&<section className="home-resume-card"><div className="home-resume-label"><span className="home-resume-icon"><BookOpen size={17}/></span><div><small>READY TO PICK UP</small><b>Continue with your material</b></div></div><button className="home-resume-material" onClick={()=>setActiveMaterial(materials[0])}><span><FileText size={16}/></span><div><strong>{materials[0].name}</strong><small>{subjects.find(s=>s.id===materials[0].subjectId)?.name??'Your library'} · {materials[0].characterCount.toLocaleString()} characters</small></div><ArrowRight size={16}/></button></section>}
           <section className="home-main-grid">
             <div className="home-primary-stack">
