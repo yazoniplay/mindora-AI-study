@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ArrowDownToLine, ArrowRight, BookOpen, Check, ChevronRight, Clock3, FileImage,
   FileText, FolderOpen, GraduationCap, House, Layers3, LoaderCircle, LogIn,
-  LogOut, Menu, Plus, Search, Sparkles, Trash2, Upload, X, Cloud,
+  LogOut, Menu, Plus, Search, Trash2, Upload, X, Cloud,
 } from 'lucide-react';
 import {
   createSubject, deleteMaterial, deleteSubject, getMaterials, getSubjects,
@@ -88,7 +88,6 @@ function App() {
       return inSubject && matches;
     });
   }, [materials, page, search, subjectId]);
-  const totalChars = materials.reduce((sum, item) => sum + item.characterCount, 0);
   const openImport = () => { setError(''); setFiles([]); setNotes(''); setMaterialTitle(''); setImportSubject(subjectId ?? ''); setImportOpen(true); };
   const performSync = async (user: CloudUser) => {
     setSyncing(true); setError('');
