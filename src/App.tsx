@@ -5,7 +5,7 @@ import {
   Trash2, Upload, X,
 } from 'lucide-react';
 import { createSubject, deleteMaterial, deleteSubject, getMaterials, getSubjects, saveMaterial, type Material, type Subject } from './lib/database';
-import { extractText, fileKind, supportedFile, supportedExtensions } from './lib/extract';
+import { extractText, fileKind, isImageFile, supportedFile, supportedExtensions } from './lib/extract';
 
 type Page = 'Home' | 'Library' | 'Subjects';
 
@@ -95,7 +95,7 @@ function App() {
           continue;
         }
         try {
-          if (file.type.startsWith('image/')) {
+          if (isImageFile(file)) {
             const size = (file.size / 1024).toLocaleString(undefined, { maximumFractionDigits: 0 });
             await saveMaterial({
               name: file.name,
