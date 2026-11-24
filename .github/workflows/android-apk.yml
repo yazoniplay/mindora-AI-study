@@ -36,7 +36,7 @@ jobs:
       - name: Sync native project
         run: npx cap sync android
       - name: Build debug APK
-        run: android/gradlew --no-daemon -p android assembleDebug
+        run: chmod +x android/gradlew && android/gradlew --no-daemon -p android assembleDebug
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
