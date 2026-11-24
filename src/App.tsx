@@ -9,7 +9,7 @@ import {
   putMaterial, putSubject, saveMaterial, type Material, type Subject,
 } from './lib/database';
 import {
-  deleteCloudMaterial, deleteCloudSubject, downloadCloudFile, fetchCloudRows,
+  deleteCloudFile, deleteCloudMaterial, deleteCloudSubject, downloadCloudFile, fetchCloudRows,
   getCloudUser, signIn, signOut, signUp, uploadCloudFile, upsertCloud,
   type CloudUser,
 } from './lib/supabase';
@@ -180,7 +180,7 @@ function App() {
   const removeMaterial = async (material: Material) => {
     if (!window.confirm(`Delete “${material.name}” from your library?`)) return;
     await deleteMaterial(material.id);
-    if (cloudUser) { try { await deleteCloudMaterial(material.id); } catch {} }
+    if (cloudUser) { try { await deleteCloudMaterial(material.id); if (material.storagePath) await deleteCloudFile(material.storagePath); } catch {} }
     if (activeMaterial?.id === material.id) setActiveMaterial(null);
     await refresh();
   };
