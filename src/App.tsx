@@ -201,7 +201,7 @@ function App() {
           <button className="mobile-menu icon-button" onClick={()=>setSidebarOpen(!sidebarOpen)} aria-label="Toggle menu">{sidebarOpen?<X size={19}/>:<Menu size={19}/>}</button>
           <div className="breadcrumb"><span>My space</span><span className="crumb-slash">/</span><strong>{selectedSubjectName ?? (selectedMaterial ? selectedMaterial.name : page)}</strong></div>
           <div className="top-actions">
-            <label className="search-box"><Search size={16}/><input value={query} onChange={event=>{setQuery(event.target.value);if(event.target.value.trim())setPage('Library')}} placeholder="Search your materials" aria-label="Search your study materials"/></label>
+            <label className="search-box"><Search size={16}/><input value={query} onChange={event=>{setQuery(event.target.value);if(event.target.value.trim()){setPage('Library');setSelectedSubject(null);setSelectedMaterial(null)}}} placeholder="Search your materials" aria-label="Search your study materials"/></label>
             <button className="top-import" onClick={openImport}><Plus size={15}/> Add material</button>
           </div>
         </header>
