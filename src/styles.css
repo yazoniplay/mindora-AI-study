@@ -135,3 +135,11 @@ button:active:not(:disabled){transform:scale(.985)}
 /* Keep uploaded study images steady: no hover zoom or animated scaling. */
 .library-image,.image-preview,.home-study-art img,.banner-photo{transform:none!important;transition:none!important;animation:none!important;}
 .library-card:hover .library-image,.home-study-banner:hover img,.study-banner:hover .banner-photo{transform:none!important;filter:none!important;}
+
+
+/* Home dashboard: use the full content width instead of leaving a dead column below the library. */
+.home-workbench{grid-template-columns:minmax(0,1fr);}
+.home-main-column{grid-column:1/-1;}
+.home-side-column{grid-column:1/-1;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;}
+.home-focus-panel,.home-subject-panel{height:auto;min-height:0;}
+@media(max-width:560px){.home-side-column{grid-template-columns:1fr;}}
