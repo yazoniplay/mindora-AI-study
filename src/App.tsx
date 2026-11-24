@@ -14,6 +14,7 @@ import {
   type CloudUser,
 } from './lib/supabase';
 import { extractText, fileKind, isImageFile, supportedFile, supportedExtensions } from './lib/extract';
+import StudyTools from './StudyTools';
 
 type Page = 'Today' | 'Planner' | 'Library' | 'Subjects';
 function greeting() {
@@ -246,7 +247,7 @@ function App() {
       <header className="topbar"><button className="mobile-menu" onClick={()=>setSidebarOpen(v=>!v)} aria-label="Open menu">{sidebarOpen?<X size={19}/>:<Menu size={19}/>}</button><div className="crumb"><span>Workspace</span><span>/</span><strong>{activeMaterial?.name??(subjectId?selectedSubject?.name:page)}</strong></div><div className="topbar-actions"><label className="search-field"><Search size={16}/><input value={search} onChange={e=>{setSearch(e.target.value);if(e.target.value.trim()){setPage('Library');setSubjectId(null);setActiveMaterial(null)}}} placeholder="Search your study materials"/></label><button className="add-material-button" onClick={openImport}><Plus size={16}/><span>Add material</span></button></div></header>
       <div className="content-area">
         {error&&!importOpen&&!subjectOpen&&!authOpen&&<div className="error-banner">{error}</div>}
-        {activeMaterial?<section className="reader-view"><button className="back-button" onClick={()=>setActiveMaterial(null)}>← Back to {page==='Subjects'?'subject':'library'}</button><div className="reader-title"><span className="reader-icon">{activeMaterial.kind==='image'?<FileImage size={22}/>:<FileText size={22}/>}</span><div><div className="kicker">STUDY MATERIAL</div><h1>{activeMaterial.name}</h1><p>{activeMaterial.kind.toUpperCase()} · {activeMaterial.characterCount.toLocaleString()} characters</p></div><button className="delete-icon" onClick={()=>removeMaterial(activeMaterial)} aria-label="Delete material"><Trash2 size={17}/></button></div>{activeMaterial.imageBlob&&<div className="reader-image"><StoredImage blob={activeMaterial.imageBlob} name={activeMaterial.name} className="image-preview"/></div>}<article className="reader-text">{activeMaterial.text}</article></section>
+        {activeMaterial?<section className="reader-view"><button className="back-button" onClick={()=>setActiveMaterial(null)}>← Back to {page==='Subjects'?'subject':'library'}</button><div className="reader-title"><span className="reader-icon">{activeMaterial.kind==='image'?<FileImage size={22}/>:<FileText size={22}/>}</span><div><div className="kicker">STUDY MATERIAL</div><h1>{activeMaterial.name}</h1><p>{activeMaterial.kind.toUpperCase()} · {activeMaterial.characterCount.toLocaleString()} characters</p></div><button className="delete-icon" onClick={()=>removeMaterial(activeMaterial)} aria-label="Delete material"><Trash2 size={17}/></button></div>{activeMaterial.imageBlob&&<div className="reader-image"><StoredImage blob={activeMaterial.imageBlob} name={activeMaterial.name} className="image-preview"/></div>}<article className="reader-text">{activeMaterial.text}</article><StudyTools material={activeMaterial}/></section>
         :page==='Today'?<div className="home-dashboard">
           <section className="home-topline">
             <div><div className="kicker"><span className="kicker-dot"/> YOUR STUDY OVERVIEW</div><h1>{greeting()}, <span>ready to focus?</span></h1><p>{dateLabel()} <i className="home-date-dot"/> A little progress adds up.</p></div>
