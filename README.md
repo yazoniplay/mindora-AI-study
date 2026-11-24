@@ -2,21 +2,26 @@
 
 **Make every late night count.**
 
-Mindora is an all-in-one AI study space designed to make learning feel cozy, motivating, and genuinely fun. The goal is to help students turn notes, files, and videos into a personalized learning experience.
+Mindora is an all-in-one study space for turning your own learning material into organized, useful study sessions.
 
-## Vision
+## Current working features
 
-- Android + web from a shared codebase
-- Study from pasted notes, multiple files, and YouTube videos
-- AI summaries, tutor, flashcards, quizzes, and practice tests
-- Study games, subject progression, XP, streaks, and achievements
-- Custom profiles, friends, and leaderboards
-- A polished liquid-glass interface with rich, accessible motion
-- Real, properly licensed assets sourced from established libraries (no AI-generated artwork used as app assets)
+- Responsive study dashboard with real counts from the user's library
+- Create and delete subjects
+- Import multiple study files at once
+- Paste and save personal notes
+- Extract readable text from PDF, DOCX, PPTX, TXT, Markdown, and CSV
+- Save materials and subjects in IndexedDB on the current browser/device
+- Search material names and extracted content
+- Read imported material inside the app
+- Assign materials to subjects and remove materials
+- Actual empty states instead of seeded demo data or fake progress
 
-## Current status
+## Important data behavior
 
-The first commit establishes a responsive visual foundation and interactive dashboard prototype. Upload and study actions are UI placeholders; persistence, authentication, AI processing, and real study flows are next.
+The current library is local to the browser and device. Clearing browser site data can remove it. Cloud accounts and sync are not connected yet, so the app does not claim that your materials are backed up or available on other devices.
+
+AI-generated summaries, flashcards, quizzes, YouTube transcript import, study games, and Android packaging are not enabled yet. They will be added as working features, not fake buttons.
 
 ## Run locally
 
@@ -25,16 +30,19 @@ npm install
 npm run dev
 ```
 
-Build for production:
+Production build:
 
 ```bash
 npm run build
 ```
 
-## Tech
+## Stack
 
-- React + TypeScript + Vite
+- React, TypeScript, Vite
 - Lucide icons
-- CSS motion and glassmorphism
-- Planned: Supabase for auth, database, and file storage
-- Planned: Capacitor for Android packaging
+- PDF.js, Mammoth, and JSZip for document text extraction
+- IndexedDB for local study-library persistence
+
+## Asset policy
+
+Mindora uses established icon and font libraries and will source motion/illustration assets from real asset libraries with their licensing and attribution tracked. No AI-generated artwork is used as app assets.
