@@ -2,6 +2,11 @@ const documentExtensions = new Set(['txt', 'md', 'csv', 'pdf', 'docx', 'pptx']);
 const imageExtensions = new Set(['png', 'jpg', 'jpeg', 'webp', 'gif', 'bmp', 'avif']);
 const allowedExtensions = new Set([...documentExtensions, ...imageExtensions]);
 
+export function isImageFile(file: File): boolean {
+  const extension = file.name.split('.').pop()?.toLowerCase() ?? '';
+  return file.type.startsWith('image/') || imageExtensions.has(extension);
+}
+
 export function supportedFile(file: File): boolean {
   const extension = file.name.split('.').pop()?.toLowerCase() ?? '';
   return allowedExtensions.has(extension) || file.type.startsWith('image/');
@@ -60,7 +65,7 @@ async function extractPptx(file: File): Promise<string> {
 
 export async function extractText(file: File): Promise<string> {
   const extension = fileKind(file);
-  if (!allowedExtensions.has(extension)) {
+  if (!documentExtensions.has(extension)) {
     throw new Error('Unsupported file type: .' + (extension || 'unknown'));
   }
   if (extension === 'pdf') return extractPdf(file);
