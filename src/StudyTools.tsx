@@ -46,7 +46,7 @@ export default function StudyTools({ material }: { material: Material }) {
   const question = quiz[index];
   const options = useMemo(() => {
     if (!question) return [];
-    const distractors = quiz.filter((item, i) => i !== index).map(item => item.answer);
+    const distractors = quiz.filter((_, i) => i !== index).map(item => item.answer);
     return [question.answer, ...distractors.slice(0, 3)].sort((a, b) => (a.length % 7) - (b.length % 7));
   }, [quiz, index, question]);
   const reset = (nextMode: 'cards' | 'quiz') => { setMode(nextMode); setIndex(0); setFlipped(false); setChoice(''); setChecked(false); setScore(0); };
