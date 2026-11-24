@@ -6,23 +6,60 @@ Mindora is an all-in-one study space for turning your own learning material into
 
 ## Working now
 
-- Responsive study dashboard with counts derived from the user's library
-- Create and delete subjects
-- Import multiple PDF, DOCX, PPTX, TXT, Markdown, and CSV files
+- Responsive public landing page and signed-in/local study workspace
+- Create and delete subjects; organize materials by subject
+- Import PDF, DOCX, PPTX, TXT, Markdown, CSV, and image files
 - Paste and save personal notes
-- Extract readable document text and view it inside Mindora
+- Extract readable document text and read it inside Mindora
 - Search material names and extracted content
-- Assign materials to subjects and remove materials
 - Local persistence through IndexedDB
-- Document parsers are loaded only when the corresponding format is imported
-
-No demo subjects, fabricated XP, fake streaks, or pretend import actions are seeded into the app.
+- Quick practice from imported text: source-based fill-in flashcards and a self-check quiz
+- Editable student profile with display name and avatar selection
+- Levels and XP earned from completing tasks, finishing focus timers, and reviewing flashcards
+- Activity-based study streaks and achievements (not pre-seeded/fake)
+- Supabase account authentication and manual cloud sync for subjects, materials, and stored image files
 
 ## Data behavior
 
-The library currently saves on the browser/device where it is used. Clearing site data can remove local materials. Cloud accounts and sync are not connected, so Mindora does not claim that your content is backed up or shared between devices.
+The library and student progress are stored locally on the current browser/device. Cloud sync currently covers subjects, materials, and stored images when signed in and manually synced. Planner tasks, profile settings, XP, streaks, and practice progress are not yet synced across devices. Clearing browser/site data can remove local-only progress. The current quick practice is generated from imported text locally; it is not an AI model call.
 
-AI summaries, AI-generated flashcards/quizzes, YouTube transcript import, study games, and social features are not enabled yet. They will be connected as real flows before they appear as working controls.
+No demo subjects, fabricated XP, fake streaks, fake leaderboards, or pretend import actions are seeded into the app.
+
+## Roadmap
+
+These are planned features, not claims that they are already live. Build each as a real working flow and keep unfinished items out of the UI.
+
+### Study engine
+- [ ] AI study assistant that answers from the student's own material with source context
+- [ ] AI summaries, structured notes, key concepts, and explanations from files/notes
+- [ ] YouTube URL import with transcript/caption extraction where available
+- [ ] Saved flashcard decks with editable cards
+- [ ] Spaced repetition scheduling, due-card queue, confidence ratings, and review history
+- [ ] Quiz builder with varied question types and answer explanations
+- [ ] Timed practice tests, results, review of mistakes, and retakes
+- [ ] Study games and interactive learning activities
+
+### Planner and progress
+- [ ] Weekly timetable and calendar view
+- [ ] Exam dates, countdowns, assignment milestones, and revision plans
+- [ ] Grade tracker and target grades
+- [ ] Study analytics: time by subject, consistency, accuracy, and improvement
+- [ ] Persisted study sessions and meaningful progress reports
+
+### Student profiles and social learning
+- [ ] Full profiles with customizable avatar, profile theme, banner, bio, and profile decorations
+- [ ] Profile privacy and account controls
+- [ ] Friend requests, friend list, and study together sessions
+- [ ] Real leaderboards based on transparent earned progress, with privacy controls
+- [ ] More achievements, badges, level rewards, streak milestones, and unlockables
+- [ ] Optional profile/world customization and earned cosmetics
+
+### Platform and polish
+- [ ] Cloud sync for tasks, profiles, XP, streaks, decks, review schedules, and progress
+- [ ] Reliable sync conflict handling and account data export/delete
+- [ ] Push/local reminders for exams, due reviews, and planned study sessions
+- [ ] Cross-device web + Android experience
+- [ ] Carefully designed motion, sound effects, and reward feedback with settings to disable them
 
 ## Web
 
@@ -61,7 +98,8 @@ The Android APK workflow builds a debug APK and uploads it as a workflow artifac
 - Capacitor Android runtime
 - Lucide icons
 - PDF.js, Mammoth, and JSZip for document text extraction
-- IndexedDB for local library persistence
+- IndexedDB for local library and study profile persistence
+- Supabase Auth, Postgres, and private Storage for account-backed library sync
 
 ## Asset policy
 
