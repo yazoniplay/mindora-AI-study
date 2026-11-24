@@ -207,6 +207,7 @@ function App() {
         </header>
 
         <div className="page-content">
+          {error && !importOpen && !subjectOpen && <div className="global-error" role="alert">{error}</div>}
           {selectedMaterial ? (
             <section className="material-reader">
               <button className="back-link" onClick={()=>setSelectedMaterial(null)}>← Back to {page==='Subjects'?'subject':'library'}</button>
