@@ -12,6 +12,7 @@ export type Material = {
   subjectId: string | null;
   createdAt: number;
   characterCount: number;
+  imageBlob?: Blob;
 };
 
 const DATABASE_NAME = 'mindora-library';
@@ -77,7 +78,7 @@ export async function getMaterials(): Promise<Material[]> {
 
 export async function saveMaterial(input: Omit<Material, 'id' | 'createdAt' | 'characterCount'>): Promise<Material> {
   if (!input.name.trim()) throw new Error('A material needs a file or title.');
-  if (!input.text.trim()) throw new Error('No readable text was found in this material.');
+  if (!input.text.trim() && !input.imageBlob) throw new Error('No readable text or image content was found in this material.');
   const material: Material = {
     ...input,
     id: crypto.randomUUID(),
