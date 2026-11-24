@@ -3,6 +3,7 @@ export type Subject = {
   name: string;
   createdAt: number;
 };
+export type StudyTask = { id: string; title: string; dueAt: number; subjectId: string | null; priority: 'low' | 'medium' | 'high'; completed: boolean; createdAt: number; };
 export type Material = {
   id: string;
   name: string;
@@ -15,15 +16,17 @@ export type Material = {
   storagePath?: string | null;
 };
 const DATABASE_NAME = 'mindora-library';
-const DATABASE_VERSION = 1;
+const DATABASE_VERSION = 2;
 const SUBJECTS_STORE = 'subjects';
 const MATERIALS_STORE = 'materials';
+const TASKS_STORE = 'tasks';
 function openDatabase(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(DATABASE_NAME, DATABASE_VERSION);
     request.onupgradeneeded = () => {
       const database = request.result;
       if (!database.objectStoreNames.contains(SUBJECTS_STORE)) database.createObjectStore(SUBJECTS_STORE, { keyPath: 'id' });
+      if (!database.objectStoreNames.contains(TASKS_STORE)) { const tasks = database.createObjectStore(TASKS_STORE, { keyPath: 'id' }); tasks.createIndex('dueAt', 'dueAt'); tasks.createIndex('subjectId', 'subjectId'); }
       if (!database.objectStoreNames.contains(MATERIALS_STORE)) {
         const store = database.createObjectStore(MATERIALS_STORE, { keyPath: 'id' });
         store.createIndex('createdAt', 'createdAt');
@@ -93,3 +96,8 @@ export async function deleteSubject(id: string): Promise<void> {
     transaction.onabort = () => { database.close(); reject(transaction.error); };
   });
 }
+
+export async function getTasks(): Promise<StudyTask[]> { const rows = await requestResult<StudyTask[]>(TASKS_STORE, 'readonly', store => store.getAll()); return rows.sort((a,b) => a.dueAt-b.dueAt); }
+export async function saveTask(input: Omit<StudyTask, 'id' | 'createdAt'>): Promise<StudyTask> { if (!input.title.trim()) throw new Error('Enter a task title.'); const task: StudyTask = { ...input, title: input.title.trim(), id: crypto.randomUUID(), createdAt: Date.now() }; await requestResult<IDBValidKey>(TASKS_STORE, 'readwrite', store => store.add(task)); return task; }
+export async function putTask(task: StudyTask): Promise<void> { await requestResult<IDBValidKey>(TASKS_STORE, 'readwrite', store => store.put(task)); }
+export async function deleteTask(id: string): Promise<void> { await requestResult<undefined>(TASKS_STORE, 'readwrite', store => store.delete(id)); }
