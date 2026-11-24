@@ -1,5 +1,5 @@
 export type Subject = { id: string; name: string; createdAt: number; };
-export type StudyTask = { id: string; title: string; dueAt: number; subjectId: string | null; priority: 'low' | 'medium' | 'high'; completed: boolean; xpAwarded?: boolean; createdAt: number; };
+export type StudyTask = { id: string; title: string; dueAt: number; subjectId: string | null; priority: 'low' | 'medium' | 'high'; taskType?: 'assignment' | 'exam' | 'study'; completed: boolean; xpAwarded?: boolean; createdAt: number; };
 export type Material = { id: string; name: string; kind: string; text: string; subjectId: string | null; createdAt: number; characterCount: number; imageBlob?: Blob; storagePath?: string | null; };
 export type StudentProfile = { id: 'local'; displayName: string; avatar: string; totalXp: number; completedTasks: number; focusSessions: number; cardsReviewed: number; activityDates: string[]; updatedAt: number; };
 const DATABASE_NAME = 'mindora-library';
