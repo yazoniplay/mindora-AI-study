@@ -256,10 +256,7 @@ function App() {
                 {loading?<div className="home-loading"><LoaderCircle size={20} className="spin"/> Loading your library…</div>:materials.length===0?<div className="home-first-material"><div className="home-empty-art"><BookOpen size={31}/><span/></div><div><h3>Your study space starts here</h3><p>Bring in a real worksheet, lecture slide, textbook page, or your own notes.</p><button className="home-inline-action" onClick={openImport}>Import your first material <ArrowRight size={14}/></button></div></div>:<div className="home-material-list">{materials.slice(0,5).map((material,index)=><button className="home-material-item" key={material.id} style={{'--item-index':index} as React.CSSProperties} onClick={()=>setActiveMaterial(material)}><span className="home-material-symbol">{material.kind==='image'?<FileImage size={18}/>:<FileText size={18}/>}</span><span className="home-material-details"><strong>{material.name}</strong><small>{subjects.find(s=>s.id===material.subjectId)?.name??material.kind.toUpperCase()} · {material.characterCount.toLocaleString()} characters</small></span><ChevronRight size={17}/></button>)}</div>}
                 <div className="home-library-foot"><span><strong>{materials.length}</strong> materials <i/> <strong>{subjects.length}</strong> subjects</span><button onClick={()=>navigate('Subjects')}>Organize subjects <ArrowRight size={13}/></button></div>
               </article>
-              <article className="home-study-banner">
-                <div className="home-study-art"><img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=85" alt="Open notebook and study desk" loading="lazy"/><span className="home-art-overlay"/></div>
-                <div className="home-study-copy"><span className="section-overline">MAKE SPACE TO FOCUS</span><h2>A little focused time<br/>goes a long way.</h2><p>Settle in, choose a material, and work at your own pace.</p><button className="home-inline-action" onClick={()=>{setTimerRunning(true);setPage('Today')}}>Start a focus session <ArrowRight size={14}/></button></div>
-              </article>
+
             </div>
             <aside className="home-side-column">
               <article className="home-focus-panel">
