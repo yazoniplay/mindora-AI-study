@@ -1,5 +1,3 @@
-import type * as pdfjsTypes from 'pdfjs-dist/legacy/build/pdf.mjs';
-
 const allowedExtensions = new Set(['txt', 'md', 'csv', 'pdf', 'docx', 'pptx']);
 
 export function supportedFile(file: File): boolean {
@@ -23,7 +21,7 @@ async function extractPdf(file: File): Promise<string> {
     const page = await document.getPage(pageNumber);
     const content = await page.getTextContent();
     const pageText = content.items
-      .map((item: pdfjsTypes.TextItem | pdfjsTypes.TextMarkedContent) => 'str' in item ? item.str : '')
+      .map(item => 'str' in item ? item.str : '')
       .filter(Boolean)
       .join(' ');
     if (pageText.trim()) pages.push(pageText);
