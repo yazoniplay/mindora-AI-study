@@ -1,9 +1,4 @@
-import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs';
-import pdfWorkerUrl from 'pdfjs-dist/legacy/build/pdf.worker.mjs?url';
-import mammoth from 'mammoth/mammoth.browser';
-import JSZip from 'jszip';
-
-pdfjs.GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
+import type * as pdfjsTypes from 'pdfjs-dist/legacy/build/pdf.mjs';
 
 const allowedExtensions = new Set(['txt', 'md', 'csv', 'pdf', 'docx', 'pptx']);
 
@@ -17,31 +12,38 @@ export function fileKind(file: File): string {
 }
 
 async function extractPdf(file: File): Promise<string> {
+  const [pdfjs, worker] = await Promise.all([
+    import('pdfjs-dist/legacy/build/pdf.mjs'),
+    import('pdfjs-dist/legacy/build/pdf.worker.mjs?url'),
+  ]);
+  pdfjs.GlobalWorkerOptions.workerSrc = worker.default;
   const document = await pdfjs.getDocument({ data: await file.arrayBuffer() }).promise;
   const pages: string[] = [];
   for (let pageNumber = 1; pageNumber <= document.numPages; pageNumber += 1) {
     const page = await document.getPage(pageNumber);
     const content = await page.getTextContent();
     const pageText = content.items
-      .map(item => 'str' in item ? item.str : '')
+      .map((item: pdfjsTypes.TextItem | pdfjsTypes.TextMarkedContent) => 'str' in item ? item.str : '')
       .filter(Boolean)
       .join(' ');
     if (pageText.trim()) pages.push(pageText);
   }
-  return pages.join('\n\n');
+  return pages.join('\\n\\n');
 }
 
 async function extractDocx(file: File): Promise<string> {
-  const result = await mammoth.extractRawText({ arrayBuffer: await file.arrayBuffer() });
+  const mammoth = await import('mammoth/mammoth.browser');
+  const result = await mammoth.default.extractRawText({ arrayBuffer: await file.arrayBuffer() });
   return result.value;
 }
 
 async function extractPptx(file: File): Promise<string> {
+  const JSZip = (await import('jszip')).default;
   const zip = await JSZip.loadAsync(file);
   const slidePaths = Object.keys(zip.files)
-    .filter(path => /^ppt\/slides\/slide\d+\.xml$/.test(path))
+    .filter(path => /^ppt\\/slides\\/slide\\d+\\.xml$/.test(path))
     .sort((a, b) => {
-      const number = (path: string) => Number(path.match(/slide(\d+)\.xml$/)?.[1] ?? 0);
+      const number = (path: string) => Number(path.match(/slide(\\d+)\\.xml$/)?.[1] ?? 0);
       return number(a) - number(b);
     });
   const slides: string[] = [];
@@ -53,7 +55,7 @@ async function extractPptx(file: File): Promise<string> {
     const text = Array.from(parsed.getElementsByTagName('a:t')).map(node => node.textContent ?? '').join(' ');
     if (text.trim()) slides.push(text);
   }
-  return slides.join('\n\n');
+  return slides.join('\\n\\n');
 }
 
 export async function extractText(file: File): Promise<string> {
@@ -64,7 +66,7 @@ export async function extractText(file: File): Promise<string> {
   if (extension === 'pdf') return extractPdf(file);
   if (extension === 'docx') return extractDocx(file);
   if (extension === 'pptx') return extractPptx(file);
-  return (await file.text()).replace(/\u0000/g, '');
+  return (await file.text()).replace(/\\u0000/g, '');
 }
 
 export const supportedExtensions = '.txt,.md,.csv,.pdf,.docx,.pptx';
