@@ -69,7 +69,7 @@ function App() {
   useEffect(() => {
     refresh().catch(reason => setError(reason instanceof Error ? reason.message : 'Could not load your study library.'))
       .finally(() => setLoading(false));
-    getCloudUser().then(setCloudUser).catch(() => setCloudUser(null));
+    getCloudUser().then(user => { setCloudUser(user); if (user) void performSync(user); }).catch(() => setCloudUser(null));
   }, [refresh]);
   useEffect(() => {
     if (!timerRunning) return;
