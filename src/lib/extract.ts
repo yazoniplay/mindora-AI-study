@@ -1,8 +1,10 @@
-const allowedExtensions = new Set(['txt', 'md', 'csv', 'pdf', 'docx', 'pptx']);
+const documentExtensions = new Set(['txt', 'md', 'csv', 'pdf', 'docx', 'pptx']);
+const imageExtensions = new Set(['png', 'jpg', 'jpeg', 'webp', 'gif', 'bmp', 'avif']);
+const allowedExtensions = new Set([...documentExtensions, ...imageExtensions]);
 
 export function supportedFile(file: File): boolean {
   const extension = file.name.split('.').pop()?.toLowerCase() ?? '';
-  return allowedExtensions.has(extension);
+  return allowedExtensions.has(extension) || file.type.startsWith('image/');
 }
 
 export function fileKind(file: File): string {
@@ -67,4 +69,4 @@ export async function extractText(file: File): Promise<string> {
   return (await file.text()).replace(/\u0000/g, '');
 }
 
-export const supportedExtensions = '.txt,.md,.csv,.pdf,.docx,.pptx';
+export const supportedExtensions = '.txt,.md,.csv,.pdf,.docx,.pptx,.png,.jpg,.jpeg,.webp,.gif,.bmp,.avif';
