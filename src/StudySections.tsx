@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { ArrowRight, BookOpen, CalendarDays, Check, Layers3, MessageCircle, Plus, Send, Trash2, UserRound } from 'lucide-react';
-import type { Material, Subject, StudyTask, StudentProfile } from './lib/database';
+import { ArrowRight, BookOpen, CalendarDays, Layers3, MessageCircle, Plus, Send, Trash2, UserRound } from 'lucide-react';
+import type { Subject, StudyTask, StudentProfile } from './lib/database';
 
 type Page = 'Today'|'Study hub'|'Chat'|'Planner'|'Library'|'Subjects'|'Profile'|'Settings';
 type Message = {id:string;text:string;createdAt:number;replyTo?:string;reactions:string[]};
