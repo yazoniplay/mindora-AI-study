@@ -559,3 +559,57 @@ button:active{transform:translateY(0)}
 
 
 .home-daily-goal{position:relative;display:flex;align-items:center;gap:20px;padding:17px 21px;border:1px solid #b8a7ff24;border-radius:16px;background:linear-gradient(105deg,#b8a7ff0d,#91dfc908);animation:enterUp .5s .1s both}.home-daily-goal-copy{display:grid;gap:5px;min-width:150px}.home-daily-goal-copy .section-overline{margin:0}.home-daily-goal-copy>strong{font:800 24px 'Manrope',sans-serif;color:var(--ink);letter-spacing:-.7px}.home-daily-goal-copy>strong small{font:600 11px 'DM Sans',sans-serif;color:var(--muted)}.home-daily-goal-copy p{margin:0;color:var(--muted);font-size:10px}.home-daily-goal-track{height:9px;flex:1;overflow:hidden;border-radius:99px;background:#b8a7ff17}.home-daily-goal-track i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--lilac),var(--mint));transition:width .4s}.home-daily-goal-percent{min-width:36px;text-align:right;color:var(--lilac);font-size:12px;font-weight:800}.mindora-app.theme-light .home-daily-goal{background:linear-gradient(105deg,#b8a7ff13,#91dfc910);border-color:#e5e0f8}.mindora-app.theme-light .home-daily-goal-copy>strong{color:#28273c}@media(max-width:650px){.home-daily-goal{align-items:flex-start;flex-wrap:wrap;gap:12px}.home-daily-goal-copy{flex:1}.home-daily-goal-track{flex-basis:100%;order:3}.home-daily-goal-percent{align-self:center}}
+
+/* Dedicated study hub and discussion pages */
+.nav-caption-spaced{margin-top:19px}
+.study-hub-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:20px 0 30px}
+.study-hub-stats>div{padding:17px 19px;border:1px solid var(--line);border-radius:17px;background:var(--panel);display:flex;flex-direction:column;gap:7px}
+.study-hub-stats span{font-size:10px;letter-spacing:.1em;font-weight:800;color:var(--muted)}
+.study-hub-stats b{font-size:25px;color:var(--text)}
+.study-hub-section-title{display:flex;align-items:end;justify-content:space-between;margin:25px 0 15px}
+.study-hub-section-title small{font-size:10px;letter-spacing:.12em;color:var(--lilac);font-weight:800}
+.study-hub-section-title h2{font-size:21px;margin:6px 0 0;letter-spacing:-.03em}
+.study-hub-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.study-hub-cards>button{display:flex;align-items:flex-start;gap:15px;text-align:left;padding:20px;border:1px solid var(--line);border-radius:19px;background:var(--panel);color:var(--text);cursor:pointer;transition:transform .18s,border-color .18s,box-shadow .18s}
+.study-hub-cards>button:hover{transform:translateY(-3px);border-color:var(--lilac);box-shadow:0 12px 30px #17102b0c}
+.hub-icon{width:43px;height:43px;flex:0 0 43px;display:grid;place-items:center;border-radius:14px}
+.hub-icon.lilac{background:#b8a7ff20;color:#a18af5}.hub-icon.mint{background:#91dfc920;color:#56b89c}.hub-icon.peach{background:#ffbd9e22;color:#e99b75}.hub-icon.blue{background:#9ec8ff22;color:#73a9ee}
+.study-hub-cards h3,.study-hub-practice h3{font-size:15px;margin:1px 0 7px}.study-hub-cards p,.study-hub-practice p{font-size:12px;line-height:1.65;color:var(--muted);margin:0 0 13px}
+.study-hub-cards b,.study-hub-practice button{display:inline-flex;align-items:center;gap:7px;font-size:11px;color:var(--lilac);font-weight:800}
+.study-hub-practice{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.study-hub-practice article{display:flex;gap:14px;padding:19px;border:1px solid var(--line);border-radius:17px;background:var(--panel)}
+.study-hub-practice article>span{width:32px;height:32px;display:grid;place-items:center;flex:0 0 32px;border-radius:10px;background:#b8a7ff1d;color:var(--lilac);font-weight:800}
+.study-hub-practice button{border:0;background:none;padding:0;cursor:pointer}
+.study-chat-shell{height:min(680px,calc(100vh - 230px));min-height:480px;display:grid;grid-template-columns:220px minmax(0,1fr);overflow:hidden;border:1px solid var(--line);border-radius:20px;background:var(--panel);box-shadow:0 15px 45px #16112a08}
+.study-chat-sidebar{display:flex;flex-direction:column;gap:5px;padding:16px 12px;border-right:1px solid var(--line);background:var(--panel-soft,#ffffff04)}
+.study-chat-sidebar>strong{display:flex;justify-content:space-between;padding:6px 9px 12px;font-size:10px;letter-spacing:.1em;color:var(--muted)}
+.study-chat-sidebar>strong span{font-size:10px}
+.study-room{display:flex;gap:9px;align-items:center;width:100%;border:0;border-radius:9px;padding:10px;text-align:left;background:transparent;color:var(--muted);font-size:12px;cursor:pointer}
+.study-room:hover,.study-room.active{background:#b8a7ff1c;color:var(--text)}
+.study-room-create{display:flex;gap:4px;margin-top:12px}
+.study-room-create input{min-width:0;width:100%;border:1px solid var(--line);border-radius:9px;background:transparent;color:var(--text);padding:9px;font-size:11px}
+.study-room-create button{width:32px;flex:0 0 32px;border:1px solid var(--line);border-radius:9px;background:transparent;color:var(--lilac);cursor:pointer}
+.study-chat-sidebar>small{margin-top:auto;padding:10px 5px 2px;color:var(--muted);font-size:10px;line-height:1.6}
+.study-chat-main{display:flex;min-width:0;flex-direction:column}
+.study-chat-main>header{display:flex;align-items:center;gap:10px;padding:17px 21px;border-bottom:1px solid var(--line)}
+.study-chat-main>header b{font-size:14px}.study-chat-main>header span{font-size:11px;color:var(--muted)}
+.study-chat-messages{flex:1;overflow:auto;padding:20px}
+.study-chat-empty{height:100%;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--muted)}
+.study-chat-empty>svg{color:var(--lilac)}.study-chat-empty h3{margin:13px 0 5px;color:var(--text);font-size:16px}.study-chat-empty p{max-width:290px;font-size:12px;line-height:1.6}
+.study-chat-message{display:flex;gap:11px;margin-bottom:22px}
+.study-chat-avatar{width:31px;height:31px;display:grid;place-items:center;flex:0 0 31px;border-radius:10px;background:#b8a7ff24;color:var(--lilac)}
+.study-chat-message>div{min-width:0;flex:1}
+.study-chat-meta{display:flex;align-items:center;gap:9px;margin:1px 0 6px}.study-chat-meta b{font-size:12px}.study-chat-meta time{font-size:10px;color:var(--muted)}
+.study-chat-message p{white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.65;margin:0;color:var(--text)}
+.study-chat-reply{display:block;margin:5px 0;color:var(--muted);border-left:2px solid var(--lilac);padding-left:9px}
+.study-chat-actions{display:flex;gap:13px;margin-top:7px}.study-chat-actions button{display:inline-flex;align-items:center;gap:4px;border:0;background:none;color:var(--muted);font-size:10px;padding:3px 0;cursor:pointer}
+.study-chat-actions button:hover{color:var(--lilac)}
+.study-chat-compose{border-top:1px solid var(--line);padding:13px 16px 15px}
+.study-chat-compose textarea{display:block;width:100%;resize:vertical;min-height:55px;border:0;outline:none;background:transparent;color:var(--text);font:inherit;font-size:13px;padding:7px}
+.study-chat-compose footer{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:5px 2px 0}
+.study-chat-compose footer small{font-size:10px;color:var(--muted)}
+.study-chat-compose footer .solid-button{padding:9px 13px;font-size:11px}
+.study-chat-replying{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;border-radius:8px;background:#b8a7ff14;font-size:11px;color:var(--muted)}
+.study-chat-replying button{border:0;background:none;color:var(--lilac);cursor:pointer}
+@media(max-width:800px){.study-hub-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.study-hub-cards,.study-hub-practice{grid-template-columns:1fr}.study-chat-shell{grid-template-columns:155px minmax(0,1fr);height:calc(100vh - 205px)}.study-chat-sidebar{padding:11px 8px}.study-chat-messages{padding:14px}}
+@media(max-width:520px){.study-chat-shell{grid-template-columns:1fr;min-height:600px;height:auto}.study-chat-sidebar{border-right:0;border-bottom:1px solid var(--line);max-height:190px;overflow:auto}.study-chat-sidebar>small{display:none}.study-chat-main{min-height:400px}.study-hub-stats>div{padding:14px}.study-hub-cards>button{padding:16px}}
