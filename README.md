@@ -13,6 +13,8 @@ Mindora is an all-in-one study space for turning your own learning material into
 - Extract readable document text and read it inside Mindora
 - Search material names and extracted content
 - Local persistence through IndexedDB
+- Dedicated Study hub with clearly separated organization, practice, focus, and progress sections
+- Study discussion page with topic rooms, replies, reactions, and message deletion (currently device-local; shared real-time chat is not connected yet)
 - Quick practice from imported text: source-based fill-in flashcards and a self-check quiz
 - Editable student profile with display name and avatar selection
 - Levels and XP earned from completing tasks, finishing focus timers, and reviewing flashcards
@@ -47,6 +49,7 @@ These are planned features, not claims that they are already live. Build each as
 - [ ] Persisted study sessions and meaningful progress reports
 
 ### Student profiles and social learning
+- [ ] Shared real-time chat backend, friend-to-friend messaging, group conversations, and cloud-synced chat history
 - [ ] Full profiles with customizable avatar, profile theme, banner, bio, and profile decorations
 - [ ] Profile privacy and account controls
 - [ ] Friend requests, friend list, and study together sessions
